@@ -19,11 +19,13 @@ spec:
           image: api-gateway:latest
           ports:
             - containerPort: 8080
-          envFrom:
-            - configMapRef:
-                name: gateway-config
-            - secretRef:
-                name: gateway-secret
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
           readinessProbe:
             httpGet:
               path: /actuator/health
