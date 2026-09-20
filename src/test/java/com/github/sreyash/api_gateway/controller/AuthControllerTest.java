@@ -45,19 +45,21 @@ class AuthControllerTest {
 
     @Test
     void register_returnsCreated_forNewUser() throws Exception {
+        String json = "{\"username\":\"newuser\",\"email\":\"newuser@test.com\",\"password\":\"password123\"}";
+
         mockMvc.perform(post("/api/auth/register")
-                        .param("username", "newuser")
-                        .param("email", "newuser@test.com")
-                        .param("password", "password123"))
+                        .contentType("application/json")
+                        .content(json))
                 .andExpect(status().isCreated());
     }
 
     @Test
     void register_returnsInternalServerError_forDuplicateUsername() throws Exception {
+        String json = "{\"username\":\"existinguser\",\"email\":\"different@test.com\",\"password\":\"password123\"}";
+
         mockMvc.perform(post("/api/auth/register")
-                        .param("username", "existinguser")
-                        .param("email", "different@test.com")
-                        .param("password", "password123"))
+                        .contentType("application/json")
+                        .content(json))
                 .andExpect(status().is5xxServerError());
     }
 

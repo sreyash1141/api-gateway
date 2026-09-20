@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.github.sreyash.api_gateway.dto.RegisterRequest;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -27,9 +28,7 @@ public class AuthController {
     @PostMapping("/register")
     @Operation(summary = "Register a new user")
     public ResponseEntity<ApiResponse<String>> register(
-            @RequestParam String username,
-            @RequestParam String email,
-            @RequestParam String password,
+            @Valid @RequestBody RegisterRequest registerRequest,
             HttpServletRequest request) {
 
         String ip = request.getRemoteAddr();
@@ -37,7 +36,12 @@ public class AuthController {
             throw new RateLimitException(ip);
         }
 
-        String result = authService.register(username, email, password);
+        String result = authService.register(
+                registerRequest.getUsername(),
+                registerRequest.getEmail(),
+                registerRequest.getPassword()
+        );
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(ApiResponse.ok(result, null));
