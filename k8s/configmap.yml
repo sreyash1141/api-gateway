@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway-config
+data:
+  MONGODB_URI: "mongodb://mongo-service:27017/gatewaydb"
+  SERVER_PORT: "8080"
+  SPRING_PROFILES_ACTIVE: "default"

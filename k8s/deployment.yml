@@ -19,11 +19,11 @@ spec:
           image: api-gateway:latest
           ports:
             - containerPort: 8080
-          env:
-            - name: JWT_SECRET
-              value: "placeholder-will-move-to-secret"
-            - name: MONGODB_URI
-              value: "mongodb://mongo-service:27017/gatewaydb"
+          envFrom:
+            - configMapRef:
+                name: gateway-config
+            - secretRef:
+                name: gateway-secret
           readinessProbe:
             httpGet:
               path: /actuator/health
