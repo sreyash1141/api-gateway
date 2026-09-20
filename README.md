@@ -219,6 +219,27 @@ Every push and pull request to `main` triggers a GitHub Actions pipeline that:
 3. Builds the application package
 4. Builds the Docker image
 See `.github/workflows/ci.yml`.
+
+## Development setup (backend + frontend)
+
+You need three things running simultaneously:
+
+```bash
+# Terminal 1 — Start MongoDB
+docker start mongo
+
+# Terminal 2 — Start backend (from project root)
+cd D:\PROJECT\api-gateway
+mvn spring-boot:run
+# Backend runs on http://localhost:8080
+
+# Terminal 3 — Start frontend
+cd D:\PROJECT\api-gateway\frontend
+npm run dev
+# Frontend runs on http://localhost:5173
+```
+
+The frontend proxies all `/api` requests to the backend automatically via Vite's dev server config — no CORS setup needed.
  
 ## Postman collection
  
